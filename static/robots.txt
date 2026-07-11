@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /admin/
+Disallow: /actuator/
+Disallow: /test-data/
+
+# Language-prefixed URLs are fully indexable
+Allow: /hi/
+Allow: /te/
+Allow: /ta/
+Allow: /kn/
+Allow: /ml/
+
+# Sitemap index — lists all sub-sitemaps
+Sitemap: https://www.kisandeals.com/sitemap.xml

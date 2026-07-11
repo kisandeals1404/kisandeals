@@ -1,0 +1,283 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 380" width="500" height="380" role="img" aria-label="Indian farmer checking live mandi prices on mobile phone in the field">
+  <defs>
+    <linearGradient id="hf-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B3E5FC"/>
+      <stop offset="70%" stop-color="#C8E6C9"/>
+      <stop offset="100%" stop-color="#A5D6A7"/>
+    </linearGradient>
+    <linearGradient id="hf-field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#388E3C"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </linearGradient>
+    <linearGradient id="hf-field2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#43A047"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="hf-skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#D4894A"/>
+      <stop offset="100%" stop-color="#B5651D"/>
+    </linearGradient>
+    <linearGradient id="hf-phone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#16213E"/>
+    </linearGradient>
+    <linearGradient id="hf-screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <filter id="hf-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+    <clipPath id="hf-screen-clip">
+      <rect x="303" y="196" width="58" height="96" rx="3"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Sky background ── -->
+  <rect width="500" height="380" fill="url(#hf-sky)"/>
+
+  <!-- ── Sun ── -->
+  <circle cx="430" cy="72" r="42" fill="#FFF9C4" opacity="0.5"/>
+  <circle cx="430" cy="72" r="32" fill="#FFF59D" opacity="0.75"/>
+  <circle cx="430" cy="72" r="22" fill="#FFEE58"/>
+
+  <!-- Sun rays -->
+  <g stroke="#FFF176" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <line x1="430" y1="38" x2="430" y2="28"/>
+    <line x1="430" y1="106" x2="430" y2="116"/>
+    <line x1="396" y1="72" x2="386" y2="72"/>
+    <line x1="464" y1="72" x2="474" y2="72"/>
+    <line x1="406" y1="48" x2="399" y2="41"/>
+    <line x1="454" y1="96" x2="461" y2="103"/>
+    <line x1="454" y1="48" x2="461" y2="41"/>
+    <line x1="406" y1="96" x2="399" y2="103"/>
+  </g>
+
+  <!-- ── Clouds ── -->
+  <g opacity="0.88">
+    <ellipse cx="90"  cy="68" rx="38" ry="16" fill="white"/>
+    <ellipse cx="118" cy="58" rx="32" ry="15" fill="white"/>
+    <ellipse cx="66"  cy="73" rx="26" ry="13" fill="white"/>
+  </g>
+  <g opacity="0.75">
+    <ellipse cx="310" cy="52" rx="30" ry="13" fill="white"/>
+    <ellipse cx="335" cy="44" rx="24" ry="11" fill="white"/>
+    <ellipse cx="290" cy="57" rx="20" ry="10" fill="white"/>
+  </g>
+
+  <!-- ── Distant hills ── -->
+  <ellipse cx="80"  cy="252" rx="130" ry="55" fill="#66BB6A" opacity="0.6"/>
+  <ellipse cx="420" cy="258" rx="140" ry="50" fill="#81C784" opacity="0.55"/>
+  <ellipse cx="250" cy="265" rx="180" ry="45" fill="#4CAF50" opacity="0.45"/>
+
+  <!-- ── Ground / Field ── -->
+  <rect x="0" y="280" width="500" height="100" fill="url(#hf-field)"/>
+  <rect x="0" y="278" width="500" height="18" fill="url(#hf-field2)"/>
+
+  <!-- Furrow lines -->
+  <g stroke="#2E7D32" stroke-width="1.5" opacity="0.5">
+    <line x1="0" y1="295" x2="500" y2="295"/>
+    <line x1="0" y1="310" x2="500" y2="310"/>
+    <line x1="0" y1="325" x2="500" y2="325"/>
+    <line x1="0" y1="340" x2="500" y2="340"/>
+  </g>
+
+  <!-- ── Wheat stalks — left cluster ── -->
+  <g fill="#8BC34A" stroke="#558B2F" stroke-width="0.8">
+    <!-- Stalk 1 -->
+    <line x1="55" y1="280" x2="50" y2="200" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="50" cy="196" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="45" cy="208" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="55" cy="206" rx="4" ry="11" fill="#8BC34A"/>
+    <!-- Stalk 2 -->
+    <line x1="75" y1="280" x2="82" y2="195" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="82" cy="191" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="76" cy="203" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="88" cy="201" rx="4" ry="11" fill="#8BC34A"/>
+    <!-- Stalk 3 -->
+    <line x1="40" y1="280" x2="35" y2="210" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="35" cy="207" rx="4" ry="12" fill="#9CCC65"/>
+    <ellipse cx="30" cy="217" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="40" cy="215" rx="3.5" ry="9" fill="#8BC34A"/>
+    <!-- Stalk 4 -->
+    <line x1="20" y1="280" x2="18" y2="220" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="18" cy="217" rx="4" ry="11" fill="#9CCC65"/>
+    <!-- Stalk 5 -->
+    <line x1="100" y1="280" x2="96" y2="215" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="96" cy="212" rx="4" ry="11" fill="#9CCC65"/>
+    <ellipse cx="91" cy="221" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="101" cy="219" rx="3.5" ry="9" fill="#8BC34A"/>
+  </g>
+
+  <!-- ── Wheat stalks — right cluster ── -->
+  <g fill="#8BC34A" stroke="#558B2F" stroke-width="0.8">
+    <line x1="440" y1="280" x2="437" y2="200" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="437" cy="196" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="431" cy="208" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="443" cy="206" rx="4" ry="11" fill="#8BC34A"/>
+
+    <line x1="460" y1="280" x2="465" y2="205" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="465" cy="201" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="459" cy="213" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="471" cy="211" rx="4" ry="11" fill="#8BC34A"/>
+
+    <line x1="480" y1="280" x2="483" y2="215" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="483" cy="212" rx="4" ry="11" fill="#9CCC65"/>
+
+    <line x1="420" y1="280" x2="416" y2="218" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="416" cy="215" rx="4" ry="11" fill="#9CCC65"/>
+    <ellipse cx="410" cy="225" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="422" cy="223" rx="3.5" ry="9" fill="#8BC34A"/>
+  </g>
+
+  <!-- ── Farmer shadow ── -->
+  <ellipse cx="200" cy="286" rx="55" ry="10" fill="rgba(0,0,0,0.18)"/>
+
+  <!-- ── Farmer body ── -->
+
+  <!-- Legs / dhoti -->
+  <rect x="173" y="242" width="26" height="50" rx="10" fill="white"/>
+  <rect x="203" y="242" width="26" height="50" rx="10" fill="#F5F5F5"/>
+  <!-- Dhoti fold lines -->
+  <line x1="178" y1="255" x2="195" y2="250" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="178" y1="265" x2="195" y2="260" stroke="#E0E0E0" stroke-width="1"/>
+  <line x1="207" y1="255" x2="224" y2="250" stroke="#E0E0E0" stroke-width="1"/>
+
+  <!-- Feet / sandals -->
+  <ellipse cx="186" cy="291" rx="16" ry="6" fill="#8D5524"/>
+  <ellipse cx="216" cy="291" rx="16" ry="6" fill="#795548"/>
+
+  <!-- Kurta / shirt body -->
+  <path d="M158 175 Q165 165 200 163 Q235 165 242 175 L248 248 Q200 255 152 248 Z" fill="white"/>
+  <!-- Kurta collar -->
+  <path d="M193 163 L200 178 L207 163" fill="none" stroke="#E0E0E0" stroke-width="1.5"/>
+  <!-- Kurta border detail -->
+  <path d="M158 175 Q165 165 200 163 Q235 165 242 175" fill="none" stroke="#4CAF50" stroke-width="2"/>
+  <line x1="200" y1="178" x2="200" y2="248" stroke="#E8E8E8" stroke-width="1"/>
+
+  <!-- Left arm (relaxed, down) -->
+  <path d="M158 178 Q145 205 140 235" stroke="url(#hf-skin)" stroke-width="22" stroke-linecap="round" fill="none"/>
+  <!-- Left hand -->
+  <circle cx="140" cy="237" r="12" fill="#D4894A"/>
+  <!-- Fingers -->
+  <ellipse cx="132" cy="244" rx="5" ry="7" fill="#C68642" transform="rotate(-15 132 244)"/>
+  <ellipse cx="140" cy="247" rx="5" ry="7" fill="#C68642"/>
+  <ellipse cx="148" cy="244" rx="5" ry="7" fill="#C68642" transform="rotate(15 148 244)"/>
+
+  <!-- Right arm (raised, holding phone) -->
+  <path d="M242 178 Q260 185 272 200" stroke="url(#hf-skin)" stroke-width="22" stroke-linecap="round" fill="none"/>
+  <!-- Forearm -->
+  <path d="M272 200 Q285 210 295 218" stroke="url(#hf-skin)" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+  <!-- ── Phone ── -->
+  <rect x="296" y="188" width="68" height="112" rx="10" fill="url(#hf-phone)" filter="url(#hf-shadow)"/>
+  <!-- Phone notch -->
+  <rect x="318" y="191" width="24" height="5" rx="2.5" fill="#333"/>
+  <!-- Screen -->
+  <rect x="302" y="200" width="56" height="92" rx="4" fill="url(#hf-screen)"/>
+
+  <!-- Screen content: KisanDeals UI mock -->
+  <g clip-path="url(#hf-screen-clip)">
+    <!-- App header bar -->
+    <rect x="302" y="200" width="56" height="16" rx="0" fill="#2E7D32"/>
+    <text x="330" y="212" text-anchor="middle" font-family="sans-serif" font-size="6" font-weight="bold" fill="white">KisanDeals</text>
+
+    <!-- Price row 1: Tomato -->
+    <rect x="303" y="218" width="56" height="18" rx="2" fill="white" opacity="0.9"/>
+    <text x="308" y="228" font-family="sans-serif" font-size="5.5" fill="#2E7D32" font-weight="600">Tomato</text>
+    <text x="308" y="234" font-family="sans-serif" font-size="4.5" fill="#757575">Pune APMC</text>
+    <text x="352" y="230" font-family="sans-serif" font-size="6" fill="#2E7D32" font-weight="700" text-anchor="end">₹28/kg</text>
+    <!-- Up arrow -->
+    <polygon points="354,233 357,228 360,233" fill="#43A047"/>
+
+    <!-- Price row 2: Wheat -->
+    <rect x="303" y="238" width="56" height="18" rx="2" fill="white" opacity="0.9"/>
+    <text x="308" y="248" font-family="sans-serif" font-size="5.5" fill="#2E7D32" font-weight="600">Wheat</text>
+    <text x="308" y="254" font-family="sans-serif" font-size="4.5" fill="#757575">Indore APMC</text>
+    <text x="352" y="250" font-family="sans-serif" font-size="6" fill="#E65100" font-weight="700" text-anchor="end">₹2800</text>
+    <!-- Down arrow -->
+    <polygon points="354,248 357,253 360,248" fill="#E53935"/>
+
+    <!-- Price row 3: Onion -->
+    <rect x="303" y="258" width="56" height="18" rx="2" fill="white" opacity="0.9"/>
+    <text x="308" y="268" font-family="sans-serif" font-size="5.5" fill="#2E7D32" font-weight="600">Onion</text>
+    <text x="308" y="274" font-family="sans-serif" font-size="4.5" fill="#757575">Nashik APMC</text>
+    <text x="352" y="270" font-family="sans-serif" font-size="6" fill="#2E7D32" font-weight="700" text-anchor="end">₹1850</text>
+    <polygon points="354,273 357,268 360,273" fill="#43A047"/>
+
+    <!-- Bottom tab bar -->
+    <rect x="302" y="278" width="58" height="14" rx="0" fill="#F1F8E9"/>
+    <text x="315" y="288" text-anchor="middle" font-family="sans-serif" font-size="4.5" fill="#2E7D32">🏠</text>
+    <text x="330" y="288" text-anchor="middle" font-family="sans-serif" font-size="4.5" fill="#9E9E9E">📈</text>
+    <text x="345" y="288" text-anchor="middle" font-family="sans-serif" font-size="4.5" fill="#9E9E9E">🛒</text>
+  </g>
+
+  <!-- Phone home button / chin -->
+  <rect x="322" y="295" width="20" height="3" rx="1.5" fill="#333"/>
+
+  <!-- ── Head ── -->
+  <circle cx="200" cy="118" r="38" fill="url(#hf-skin)"/>
+
+  <!-- Face details -->
+  <!-- Eyes -->
+  <ellipse cx="188" cy="114" rx="6" ry="7" fill="white"/>
+  <ellipse cx="212" cy="114" rx="6" ry="7" fill="white"/>
+  <circle cx="189" cy="115" r="4" fill="#3E2723"/>
+  <circle cx="213" cy="115" r="4" fill="#3E2723"/>
+  <circle cx="190" cy="113" r="1.5" fill="white"/>
+  <circle cx="214" cy="113" r="1.5" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M182 107 Q188 104 194 107" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M206 107 Q212 104 218 107" stroke="#5D4037" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <ellipse cx="200" cy="124" rx="5" ry="4" fill="#C68642"/>
+  <circle cx="196" cy="126" r="2.5" fill="#B5651D"/>
+  <circle cx="204" cy="126" r="2.5" fill="#B5651D"/>
+
+  <!-- Smile / mustache -->
+  <path d="M191 129 Q200 126 209 129" stroke="#5D4037" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Smile -->
+  <path d="M189 134 Q200 142 211 134" stroke="#8D4E2A" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Ear -->
+  <ellipse cx="162" cy="118" rx="8" ry="12" fill="#C68642"/>
+  <ellipse cx="238" cy="118" rx="8" ry="12" fill="#C68642"/>
+
+  <!-- ── Turban ── -->
+  <ellipse cx="200" cy="90" rx="42" ry="22" fill="#FF6F00"/>
+  <ellipse cx="200" cy="84" rx="36" ry="18" fill="#E65100"/>
+  <ellipse cx="200" cy="78" rx="30" ry="15" fill="#F57C00"/>
+  <ellipse cx="200" cy="73" rx="22" ry="12" fill="#FF8F00"/>
+  <!-- Turban center jewel -->
+  <circle cx="200" cy="70" r="6" fill="#FDD835"/>
+  <circle cx="200" cy="70" r="3.5" fill="#F9A825"/>
+  <!-- Turban tail -->
+  <path d="M238 82 Q260 75 270 90 Q265 100 250 98 Q240 92 238 82" fill="#E65100"/>
+
+  <!-- ── Birds in sky ── -->
+  <g stroke="#546E7A" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <path d="M140 90 Q145 86 150 90"/>
+    <path d="M152 86 Q157 82 162 86"/>
+    <path d="M165 94 Q169 90 173 94"/>
+  </g>
+
+  <!-- ── Green badge / tag ── -->
+  <rect x="15" y="15" width="130" height="32" rx="16" fill="#2E7D32" filter="url(#hf-shadow)"/>
+  <text x="80" y="26" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#A5D6A7" font-weight="500">Live Mandi Prices</text>
+  <text x="80" y="38" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">📈 Checked Daily</text>
+
+  <!-- ── Decorative dots ── -->
+  <circle cx="380" cy="170" r="3" fill="#A5D6A7" opacity="0.6"/>
+  <circle cx="395" cy="155" r="2" fill="#81C784" opacity="0.5"/>
+  <circle cx="370" cy="155" r="2" fill="#A5D6A7" opacity="0.4"/>
+  <circle cx="390" cy="190" r="2.5" fill="#66BB6A" opacity="0.5"/>
+
+  <!-- ── Floating price chip ── -->
+  <rect x="330" y="155" width="100" height="26" rx="13" fill="white" filter="url(#hf-shadow)"/>
+  <circle cx="346" cy="168" r="9" fill="#E8F5E9"/>
+  <text x="346" y="171" text-anchor="middle" font-family="sans-serif" font-size="8">🌾</text>
+  <text x="383" y="165" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#2E7D32" font-weight="700">Wheat ₹2800/Q</text>
+  <text x="383" y="176" text-anchor="middle" font-family="sans-serif" font-size="6" fill="#757575">Indore APMC Today</text>
+</svg>

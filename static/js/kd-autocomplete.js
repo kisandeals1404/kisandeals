@@ -89,19 +89,15 @@ function load(cb) {
     return;
   }
 
-  // Fetch — from jsDelivr when configured (window.KD_CDN_URL, set in base.ftl),
-  // falling back to our own /autocomplete endpoint if the CDN fetch fails or
-  // no CDN is configured (local dev).
-  var _cdnBase  = window.KD_CDN_URL || '';
-  var _sameOrigin = function(){
-    return fetch('/autocomplete/' + _locale + '.json')
-      .then(function(r){ return r.ok ? r.json() : {c:[],d:[]}; });
-  };
+  // Fetch — from jsDelivr ONLY (window.KD_CDN_URL, set in base.ftl). Deliberately
+  // never falls back to our own /autocomplete endpoint — EC2 must not serve this
+  // traffic. If no CDN is configured or the CDN fetch fails, autocomplete simply
+  // has no data (see .catch below) rather than hitting EC2.
+  var _cdnBase = window.KD_CDN_URL || '';
   var _fetchP = _cdnBase
     ? fetch(_cdnBase + '/autocomplete/' + _locale + '.json')
         .then(function(r){ if (!r.ok) throw new Error('cdn fetch failed'); return r.json(); })
-        .catch(_sameOrigin)
-    : _sameOrigin();
+    : Promise.reject(new Error('no CDN configured'));
 
   _fetchP
     .then(function(data){

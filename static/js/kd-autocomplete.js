@@ -1,18 +1,18 @@
 /* KisanDeals autocomplete + dropdown data engine
-   Usage: add data-kd-ac="commodity" or data-kd-ac="district" on any <input>
+   Usage: add data-kd-ac="commodity" on any <input>
    Optional: data-kd-ac-min="2" (min chars), data-kd-ac-limit="10" (max results)
 
-   JSON shape (served by /autocomplete/{locale}.json):
+   JSON shape (served from the CDN only — window.KD_CDN_URL + /autocomplete/{locale}.json):
      c   – [[value, display], …]          commodities with locale label
-     d   – [[district, state], …]         districts
-     cs  – {comm_lc: [state1, …], …}      commodity → available states
-     csa – {"comm_lc|state_lc": [[v,d],…]} commodity+state → APMCs
-     ca  – {comm_lc: [[v,d], …], …}       commodity → all APMCs (any state)
-     sa  – {state_lc: [[v,d], …], …}      state → all APMCs (any commodity)
+
+   State and APMC dropdown data is deliberately NOT part of this bundle — mandi
+   price pages already do a full page reload on commodity/state selection, so
+   those are populated on demand from /api/mandi/states and /api/mandi/apmcs
+   instead of shipping every commodity×state×APMC combination to every browser.
 
    Public API (all async via callback):
      window.kdAcLoad(cb)                          – cb(data) once loaded
-     window.kdAcGetStates(commodity, cb)          – cb([stateName, …])
+     window.kdAcGetStates(commodity, cb)          – cb([{value,display}, …])
      window.kdAcGetApmcsByState(comm, state, cb)  – cb([{value,display}, …])
      window.kdAcGetApmcs(commodity, cb)           – cb([{value,display}, …])
      window.kdAcGetAllApmcs(cb)                   – cb([{value,display}, …])
@@ -21,7 +21,7 @@
 (function(){
 'use strict';
 
-var LS_VERSION  = 5;
+var LS_VERSION  = 6;
 var LS_TTL_MS   = 7 * 24 * 60 * 60 * 1000; // 7 days
 var _locale     = (document.documentElement.getAttribute('lang')||'en').replace(/-.*$/,'');
 var _lsKey      = 'kd_ac_' + _locale;
@@ -81,7 +81,7 @@ function load(cb) {
   // Bots never use the autocomplete widget — skip the network fetch so
   // crawler traffic doesn't burn bandwidth/crawl budget on this JSON.
   if (window.KD_IS_BOT) {
-    var empty = {c:[],d:[]};
+    var empty = {c:[]};
     _cache   = empty;
     _loading = false;
     _pending.forEach(function(fn){ fn(empty); });
@@ -108,7 +108,7 @@ function load(cb) {
       _pending = [];
     })
     .catch(function(){
-      var empty = {c:[],d:[]};
+      var empty = {c:[]};
       _cache   = empty;
       _loading = false;
       _pending.forEach(function(fn){ fn(empty); });
@@ -116,28 +116,25 @@ function load(cb) {
     });
 }
 
-// ── Search (for autocomplete inputs) ────────────────────────────────────────
+// ── Search (for commodity autocomplete inputs) ──────────────────────────────
 
 function search(q, type, limit) {
   if (!_cache || !q || q.length < 1) return [];
   q = q.toLowerCase().trim();
-  var items = type === 'district' ? _cache.d : _cache.c;
+  var items = _cache.c || [];
   var out = [];
   limit = limit || 10;
   for (var i = 0; i < items.length; i++) {
     var it = items[i];
     var v  = it[0].toLowerCase();
     var l  = (it[1]||it[0]).toLowerCase();
-    var a  = it[2] ? it[2].toLowerCase() : '';
     var score = 0;
-    if (v===q||l===q)                         score = 100;
-    else if (v.startsWith(q))                 score = 90;
-    else if (l.startsWith(q))                 score = 85;
-    else if (a && a.indexOf(q)!==-1 && a.split(' ').some(function(w){ return w.startsWith(q); })) score = 75;
-    else if (v.indexOf(q) !== -1)             score = 60;
-    else if (l.indexOf(q) !== -1)             score = 55;
-    else if (a && a.indexOf(q) !== -1)        score = 40;
-    if (score > 0) out.push({v: it[0], l: it[1]||it[0], s: it[2]||'', score: score});
+    if (v===q||l===q)             score = 100;
+    else if (v.startsWith(q))     score = 90;
+    else if (l.startsWith(q))     score = 85;
+    else if (v.indexOf(q) !== -1) score = 60;
+    else if (l.indexOf(q) !== -1) score = 55;
+    if (score > 0) out.push({v: it[0], l: it[1]||it[0], s: '', score: score});
   }
   out.sort(function(a, b){ return b.score - a.score; });
   return out.slice(0, limit);
@@ -188,8 +185,7 @@ function show(results, input) {
       ? '<span style="font-weight:600;color:#1a1a1a">' + esc(r.l) + '</span>'
         + '<span style="color:#777;font-size:.75rem"> &mdash; ' + esc(r.v) + '</span>'
       : '<span style="font-weight:600;color:#1a1a1a">' + esc(r.v) + '</span>';
-    var secondary = r.s ? '<br><span style="color:#888;font-size:.72rem">' + esc(r.s) + '</span>' : '';
-    li.innerHTML = primary + secondary;
+    li.innerHTML = primary;
     li.dataset.v = r.v;
     li.dataset.l = r.l;
     li.addEventListener('mouseenter', function(){ hilite(i); });
@@ -294,138 +290,57 @@ if (document.readyState === 'loading') {
 window.kdAcLoad = function(cb){ load(function(data){ cb(data); }); };
 
 /**
- * Get available states for a commodity.
- * cb receives an array of state-name strings: ["Andhra Pradesh", "Karnataka", …]
- * Falls back to /api/mandi/states if 'cs' map is missing.
+ * Get available states for a commodity, from the server — pages using this
+ * already do a full reload on selection, so there's no bundled combination
+ * map to check first; this just calls /api/mandi/states directly.
+ * cb receives [{value, display}, …] (display is locale-translated server-side).
  */
 window.kdAcGetStates = function(commodity, cb) {
-  // cs pairs format: [[eng_state, display_state], …]
-  // value stays English (used in URLs), display is locale-translated
-  function pairsToObjs(pairs) {
-    return pairs.map(function(p){
-      return Array.isArray(p) ? {value: p[0], display: p[1]} : {value: p, display: p};
-    });
-  }
-  if (!commodity || commodity === 'ALL') {
-    // API fallback for all-states case (returns locale-translated names from server)
-    fetch('/api/mandi/states?commodity=ALL')
-      .then(function(r){ return r.json(); })
-      .then(function(st){ cb(st); })
-      .catch(function(){ cb([]); });
-    return;
-  }
-  load(function(data){
-    var cs = data.cs;
-    if (cs) {
-      var pairs = cs[commodity.toLowerCase()] || [];
-      if (pairs.length) { cb(pairsToObjs(pairs)); return; }
-    }
-    // API fallback
-    fetch('/api/mandi/states?commodity=' + encodeURIComponent(commodity))
-      .then(function(r){ return r.json(); })
-      .then(function(st){ cb(st); })
-      .catch(function(){ cb([]); });
-  });
+  var url = (!commodity || commodity === 'ALL')
+    ? '/api/mandi/states?commodity=ALL'
+    : '/api/mandi/states?commodity=' + encodeURIComponent(commodity);
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(st){ cb(st); })
+    .catch(function(){ cb([]); });
 };
 
 /**
- * Get APMCs for a commodity + state combination.
- * Pass commodity='' or 'ALL' to look up by state only (uses 'sa' map).
+ * Get APMCs for a commodity + state combination (or state-only, or
+ * commodity-only) — always from /api/mandi/apmcs.
  * cb receives [{value, display}, …]
  */
 window.kdAcGetApmcsByState = function(commodity, state, cb) {
   if (!state || state === 'ALL') { cb([]); return; }
-  load(function(data){
-    var stateKey = state.toLowerCase();
-    // No commodity — look up state-only APMCs from 'sa' map
-    if (!commodity || commodity === 'ALL') {
-      var sa = data.sa;
-      if (sa) {
-        var pairs = sa[stateKey] || [];
-        cb(pairs.map(function(p){ return {value: p[0], display: p[1]}; }));
-        return;
-      }
-      cb([]);
-      return;
-    }
-    // Commodity + state lookup from 'csa' map
-    var csa = data.csa;
-    if (csa) {
-      var key = commodity.toLowerCase() + '|' + stateKey;
-      var pairs = csa[key] || [];
-      if (pairs.length) {
-        cb(pairs.map(function(p){ return {value: p[0], display: p[1]}; }));
-        return;
-      }
-    }
-    // API fallback
-    fetch('/api/mandi/apmcs?commodity=' + encodeURIComponent(commodity)
-          + '&state=' + encodeURIComponent(state))
-      .then(function(r){ return r.json(); })
-      .then(function(apmcs){
-        cb(apmcs.map(function(a){ return {value: a.value||a, display: a.display||a}; }));
-      })
-      .catch(function(){ cb([]); });
-  });
+  var url = '/api/mandi/apmcs?commodity=' + encodeURIComponent(commodity || 'ALL')
+          + '&state=' + encodeURIComponent(state);
+  fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(apmcs){ cb(apmcs); })
+    .catch(function(){ cb([]); });
 };
 
 /**
- * Get all APMCs for a commodity (across all states).
- * Uses 'ca' map. Falls back to /api/mandi/apmcs.
+ * Get all APMCs for a commodity (across all states), from the server.
  * cb receives [{value, display}, …]
  */
 window.kdAcGetApmcs = function(commodity, cb) {
   if (!commodity) { cb([]); return; }
-  load(function(data){
-    var ca = data.ca;
-    if (ca) {
-      var pairs = ca[commodity.toLowerCase()] || [];
-      if (pairs.length) {
-        cb(pairs.map(function(p){ return {value: p[0], display: p[1]}; }));
-        return;
-      }
-    }
-    // API fallback
-    fetch('/api/mandi/apmcs?commodity=' + encodeURIComponent(commodity))
-      .then(function(r){ return r.json(); })
-      .then(function(apmcs){
-        cb(apmcs.map(function(a){ return {value: a.value||a, display: a.display||a}; }));
-      })
-      .catch(function(){ cb([]); });
-  });
+  fetch('/api/mandi/apmcs?commodity=' + encodeURIComponent(commodity))
+    .then(function(r){ return r.json(); })
+    .then(function(apmcs){ cb(apmcs); })
+    .catch(function(){ cb([]); });
 };
 
 /**
- * Get all APMCs across all commodities (union of 'ca' map values).
- * Deduplicated and sorted by value. Falls back to /api/mandi/apmcs?commodity=ALL.
+ * Get all APMCs across all commodities and states, from the server.
  * cb receives [{value, display}, …]
  */
 window.kdAcGetAllApmcs = function(cb) {
-  load(function(data){
-    var ca = data.ca;
-    if (ca) {
-      var seen = {};
-      var all  = [];
-      Object.keys(ca).forEach(function(k){
-        ca[k].forEach(function(p){
-          if (!seen[p[0]]) {
-            seen[p[0]] = true;
-            all.push({value: p[0], display: p[1]});
-          }
-        });
-      });
-      all.sort(function(a, b){ return a.display.localeCompare(b.display); });
-      cb(all);
-      return;
-    }
-    // API fallback
-    fetch('/api/mandi/apmcs?commodity=ALL')
-      .then(function(r){ return r.json(); })
-      .then(function(apmcs){
-        cb(apmcs.map(function(a){ return {value: a.value||a, display: a.display||a}; }));
-      })
-      .catch(function(){ cb([]); });
-  });
+  fetch('/api/mandi/apmcs?commodity=ALL')
+    .then(function(r){ return r.json(); })
+    .then(function(apmcs){ cb(apmcs); })
+    .catch(function(){ cb([]); });
 };
 
 /** Force re-fetch from server (clears localStorage + in-memory cache). */

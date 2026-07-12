@@ -93,9 +93,14 @@ function load(cb) {
   // never falls back to our own /autocomplete endpoint — EC2 must not serve this
   // traffic. If no CDN is configured or the CDN fetch fails, autocomplete simply
   // has no data (see .catch below) rather than hitting EC2.
+  // ?v= must match the preload link in head.ftl exactly (both derive from acVersion) —
+  // otherwise the browser can't reuse the preloaded response and fetches twice. It also
+  // forces the CDN to fetch fresh from origin whenever the admin rebuilds the autocomplete
+  // data, instead of the version bump only being visible client-side while the CDN keeps
+  // serving the old JSON body under an unchanged URL.
   var _cdnBase = window.KD_CDN_URL || '';
   var _fetchP = _cdnBase
-    ? fetch(_cdnBase + '/autocomplete/' + _locale + '.json')
+    ? fetch(_cdnBase + '/autocomplete/' + _locale + '.json?v=' + (window.KD_AC_VERSION || 0))
         .then(function(r){ if (!r.ok) throw new Error('cdn fetch failed'); return r.json(); })
     : Promise.reject(new Error('no CDN configured'));
 

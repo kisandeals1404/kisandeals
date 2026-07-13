@@ -289,7 +289,7 @@ body {
 .kd-form-section {
   border: 1.5px solid var(--kd-border); border-radius: 16px;
   margin-bottom: 1rem; overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  box-shadow: var(--kd-shadow-card);
 }
 .kd-form-section-head {
   background: var(--kd-surface-alt); padding: 12px 16px;
@@ -1680,7 +1680,7 @@ body {
 }
 
 /* ── Brand gradient leaf ─────────────────────────────────────────── */
-.kd-brand .bi-leaf-fill {
+.kd-brand .bi-tree-fill {
   background: var(--kd-gradient-brand);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2474,6 +2474,9 @@ body {
 
 /* ── Hamburger min touch target ────────────────────────────── */
 .kd-hamburger { min-width: 44px; min-height: 44px; }
+
+/* ── Mobile header icon buttons (language/AI/profile) min touch target ─ */
+.kd-mobile-icon-btn { min-width: 44px; min-height: 44px; justify-content: center; }
 
 /* ── Form inputs: enforce 16px minimum to prevent iOS zoom ─── */
 @media (max-width: 767.98px) {

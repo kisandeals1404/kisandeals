@@ -39,8 +39,8 @@ function lsGet() {
     var wrap = JSON.parse(raw);
     if (wrap.v !== LS_VERSION) return null;
     if (Date.now() - wrap.ts > LS_TTL_MS) return null;
-    // Invalidate if server rebuilt autocomplete since this was cached
-    var serverVer = window.KD_AC_VERSION || 0;
+    // Invalidate if the site version changed since this was cached
+    var serverVer = window.KD_AC_VERSION || '';
     if (serverVer && wrap.sv !== serverVer) return null;
     return wrap.data;
   } catch(e) { return null; }
@@ -50,7 +50,7 @@ function lsSet(data) {
   try {
     localStorage.setItem(_lsKey, JSON.stringify({
       v: LS_VERSION, ts: Date.now(),
-      sv: window.KD_AC_VERSION || 0,
+      sv: window.KD_AC_VERSION || '',
       data: data
     }));
   } catch(e) { /* quota exceeded — silently ignore */ }
@@ -93,14 +93,15 @@ function load(cb) {
   // never falls back to our own /autocomplete endpoint — EC2 must not serve this
   // traffic. If no CDN is configured or the CDN fetch fails, autocomplete simply
   // has no data (see .catch below) rather than hitting EC2.
-  // ?v= must match the preload link in head.ftl exactly (both derive from acVersion) —
-  // otherwise the browser can't reuse the preloaded response and fetches twice. It also
-  // forces the CDN to fetch fresh from origin whenever the admin rebuilds the autocomplete
-  // data, instead of the version bump only being visible client-side while the CDN keeps
-  // serving the old JSON body under an unchanged URL.
+  // ?v= must match the preload link in head.ftl exactly (both derive from the shared
+  // appVersion site-version value) — otherwise the browser can't reuse the preloaded
+  // response and fetches twice. It also forces the CDN to fetch fresh from origin once
+  // an admin bumps the site version after rebuilding autocomplete data, instead of the
+  // change only being visible client-side while the CDN keeps serving the old JSON body
+  // under an unchanged URL.
   var _cdnBase = window.KD_CDN_URL || '';
   var _fetchP = _cdnBase
-    ? fetch(_cdnBase + '/autocomplete/' + _locale + '.json?v=' + (window.KD_AC_VERSION || 0))
+    ? fetch(_cdnBase + '/autocomplete/' + _locale + '.json?v=' + (window.KD_AC_VERSION || ''))
         .then(function(r){ if (!r.ok) throw new Error('cdn fetch failed'); return r.json(); })
     : Promise.reject(new Error('no CDN configured'));
 
@@ -315,14 +316,20 @@ window.kdAcGetStates = function(commodity, cb) {
  * commodity-only) — always from /api/mandi/apmcs.
  * cb receives [{value, display}, …]
  */
+// Stale-response guard for kdAcGetApmcsByState — a fast commodity/state re-selection
+// (e.g. correcting a typo right after picking one) can have an earlier fetch resolve after
+// a later one; without this, whichever response lands last wins even if it belongs to a
+// selection the user already changed away from.
+var _acApmcsSeq = 0;
 window.kdAcGetApmcsByState = function(commodity, state, cb) {
   if (!state || state === 'ALL') { cb([]); return; }
+  var seq = ++_acApmcsSeq;
   var url = '/api/mandi/apmcs?commodity=' + encodeURIComponent(commodity || 'ALL')
           + '&state=' + encodeURIComponent(state);
   fetch(url)
     .then(function(r){ return r.json(); })
-    .then(function(apmcs){ cb(apmcs); })
-    .catch(function(){ cb([]); });
+    .then(function(apmcs){ if (seq === _acApmcsSeq) cb(apmcs); })
+    .catch(function(){ if (seq === _acApmcsSeq) cb([]); });
 };
 
 /**

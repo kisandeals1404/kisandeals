@@ -175,6 +175,23 @@ function posit(input) {
   d.style.width = r.width + 'px';
 }
 
+var _liveRegion = null;
+function getLiveRegion() {
+  if (!_liveRegion) {
+    _liveRegion = document.createElement('div');
+    _liveRegion.setAttribute('aria-live', 'polite');
+    _liveRegion.setAttribute('aria-atomic', 'true');
+    _liveRegion.className = 'visually-hidden';
+    document.body.appendChild(_liveRegion);
+  }
+  return _liveRegion;
+}
+
+function announce(count) {
+  var tpl = (document.body.dataset.kdAcAnnounce) || '{n} suggestions available';
+  getLiveRegion().textContent = tpl.replace('{n}', count);
+}
+
 function show(results, input) {
   var d = getDrop();
   d.innerHTML = '';
@@ -182,6 +199,7 @@ function show(results, input) {
   if (!results.length) { hide(); return; }
   results.forEach(function(r, i) {
     var li = document.createElement('li');
+    li.id = 'kd-ac-opt-' + i;
     li.setAttribute('role', 'option');
     li.style.cssText =
       'padding:8px 13px;cursor:pointer;font-size:.84rem;'
@@ -202,6 +220,8 @@ function show(results, input) {
   posit(input);
   d.style.opacity = '1';
   d.style.display = 'block';
+  input.setAttribute('aria-expanded', 'true');
+  announce(results.length);
 }
 
 function hilite(idx) {
@@ -212,11 +232,16 @@ function hilite(idx) {
     li.style.color      = i === idx ? '#1B5E20' : '';
   });
   _idx = idx;
+  if (_inp) {
+    if (idx >= 0 && items[idx]) _inp.setAttribute('aria-activedescendant', items[idx].id);
+    else _inp.removeAttribute('aria-activedescendant');
+  }
 }
 
 function hide() {
   if (_drop) { _drop.style.display = 'none'; _drop.innerHTML = ''; }
   _idx = -1;
+  if (_inp) { _inp.setAttribute('aria-expanded', 'false'); _inp.removeAttribute('aria-activedescendant'); }
 }
 
 function pick(r, input) {
@@ -246,6 +271,11 @@ function attach(input) {
   var limit = parseInt(input.dataset.kdAcLimit) || 10;
 
   input.setAttribute('autocomplete', 'off');
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-expanded', 'false');
+  input.setAttribute('aria-controls', 'kd-ac-drop');
+  input.setAttribute('aria-haspopup', 'listbox');
 
   input.addEventListener('focus', function(){ load(function(){}); });
 

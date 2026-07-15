@@ -12,8 +12,10 @@
   --kd-green-mid:    #4CAF50;
   --kd-amber:        #F57F17;
   --kd-amber-light:  #FFF8E1;
-  --kd-earth:        #795548;
-  --kd-sky:          #0288D1;
+  /* Darkened variant for TEXT use — --kd-amber itself is only 2.65:1 on white,
+     failing WCAG AA even at large-text size (3:1). This passes 6.8:1 on white
+     and 6.2:1 on --kd-badge-amber's #FFF3E0 background. */
+  --kd-amber-dark:   #9C3D00;
   --kd-text:         #212121;
   --kd-text-muted:   #5F5F5F;
   --kd-border:       #E0E0E0;
@@ -24,7 +26,6 @@
   --kd-radius-lg:    18px;
   --kd-shadow-sm:    0 1px 4px rgba(0,0,0,.08);
   --kd-shadow:       0 4px 16px rgba(0,0,0,.10);
-  --kd-shadow-lg:    0 8px 32px rgba(0,0,0,.12);
   --kd-font:         'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Kannada', 'Noto Sans Malayalam', sans-serif;
   --kd-bottom-nav-h:     64px;
   --kd-navbar-h:         60px;
@@ -35,6 +36,15 @@
   --bs-link-color:       var(--kd-green);
   --bs-link-color-rgb:   46, 125, 50;
 }
+
+/* ── Flex/grid truncation helper ──────────────────────────────────
+   Bootstrap 5.3 ships no min-width utility, but "min-width-0"/"min-w-0"
+   are used across templates wherever text-truncate sits inside a flex
+   or grid item — without this, flex/grid items default to min-width:
+   auto, so the item refuses to shrink below its content's natural
+   width and text-truncate's ellipsis never actually engages; the
+   content overflows its container instead. */
+.min-width-0, .min-w-0 { min-width: 0 !important; }
 
 /* ── Accessibility ─────────────────────────────────────────────── */
 /* Skip navigation link — visible on focus for keyboard users */
@@ -219,7 +229,8 @@ body {
   padding: 0;
 }
 /* catalog item (post-business product/service row) */
-.kd-catalog-item { background: #FAFAFA; }
+.kd-catalog-item { background: #FAFAFA; transition: box-shadow .15s, transform .15s; }
+.kd-catalog-item:hover { box-shadow: var(--kd-shadow-sm); transform: translateY(-1px); }
 
 /* ── Image upload component ──────────────────────────────────── */
 .kd-upload-area {
@@ -311,7 +322,7 @@ body {
 /* ── Typography ────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 .kd-text-primary { color: var(--kd-green) !important; }
-.kd-text-amber   { color: var(--kd-amber) !important; }
+.kd-text-amber   { color: var(--kd-amber-dark) !important; }
 
 /* ── Buttons ───────────────────────────────────────────────────── */
 .btn-kd-primary {
@@ -685,6 +696,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   border-radius: 16px !important;
   padding: .875rem 1rem;
   box-shadow: var(--kd-shadow-card);
+  overflow: hidden;
   transition: box-shadow .22s cubic-bezier(.4,0,.2,1), transform .25s cubic-bezier(.34,1.56,.64,1);
 }
 .kd-price-card:hover {
@@ -705,6 +717,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 .kd-home-mandi-link {
   flex: 0 0 clamp(200px, 72vw, 280px);
   scroll-snap-align: start;
+  min-width: 0;
 }
 @media (min-width: 576px) {
   .kd-mandi-snapshot-grid {
@@ -726,8 +739,14 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   background: var(--kd-surface);
   border: 1px solid var(--kd-border);
   border-left: 4px solid var(--kd-green);
-  border-radius: var(--kd-radius);
+  border-radius: 14px;
   padding: 1rem 1.25rem;
+  box-shadow: var(--kd-shadow-card);
+  transition: box-shadow .22s var(--kd-ease-smooth), transform .25s var(--kd-ease-spring);
+}
+.kd-scheme-card:hover {
+  box-shadow: var(--kd-shadow-card-lift);
+  transform: translateY(-2px);
 }
 
 /* ── Skeleton loader ───────────────────────────────────────────── */
@@ -882,6 +901,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   transform: translateY(0);
 }
 .kd-back-top:hover { background: var(--kd-green-dark); }
+.kd-back-top.kd-chat-hidden { opacity: 0 !important; pointer-events: none !important; }
 @media (min-width: 992px) {
   .kd-back-top { bottom: 1.5rem; }
 }
@@ -913,7 +933,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
    single edit instead of a find-and-replace across templates. */
 .kd-badge-info   { background: #E3F2FD; color: #1565C0; }
 .kd-badge-indigo { background: #E8EAF6; color: #283593; }
-.kd-badge-amber  { background: #FFF3E0; color: #E65100; }
+.kd-badge-amber  { background: #FFF3E0; color: var(--kd-amber-dark); }
 .kd-badge-brand  { background: var(--kd-green-light); color: var(--kd-green); }
 
 /* ── Professional mandi price card ────────────────────────────── */
@@ -932,7 +952,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
               transform .18s var(--kd-ease-spring);
 }
 .kd-mpc:hover {
-  box-shadow: var(--kd-shadow-card-hover);
+  box-shadow: var(--kd-shadow-card-lift);
   border-top-color: rgba(46,125,50,.22);
   border-right-color: rgba(46,125,50,.22);
   border-bottom-color: rgba(46,125,50,.22);
@@ -980,8 +1000,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   display: inline-flex;
   align-items: center;
   gap: .1em;
-  background: #E8F5E9;
-  color: #2E7D32;
+  background: var(--kd-green-light);
+  color: var(--kd-green);
   font-size: .72rem;
   font-weight: 700;
   padding: .25em .65em;
@@ -1044,7 +1064,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   border-radius: 6px;
   padding: .12em .55em;
 }
-.kd-range-chip--max { color: #2E7D32; background: #E8F5E9; }
+.kd-range-chip--max { color: var(--kd-green); background: var(--kd-green-light); }
 
 /* Round icon badge for commodity/city identity */
 .kd-mpc-icon-badge {
@@ -1088,7 +1108,7 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   transition: background .12s;
 }
 .kd-mpc-act:hover { background: #EEEEEE; }
-.kd-mpc-act--green { color: #2E7D32; background: #E8F5E9; border-color: #C8E6C9; }
+.kd-mpc-act--green { color: var(--kd-green); background: var(--kd-green-light); border-color: #C8E6C9; }
 .kd-mpc-act--green:hover { background: #DCEDC8; }
 
 /* Stat card (summary) */
@@ -1243,13 +1263,6 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
 
 /* (mobile drawer replaced by kd-drawer-* styles above) */
 
-/* ── Navbar link active/hover ──────────────────────────────────── */
-.kd-navbar .nav-link.active,
-.kd-navbar .nav-link:hover {
-  color: var(--kd-green);
-  background: var(--kd-green-light);
-}
-
 /* ── Utility ───────────────────────────────────────────────────── */
 html { overflow-x: hidden; }
 .kd-body { overflow-x: hidden; padding-top: var(--kd-navbar-h); }
@@ -1281,10 +1294,6 @@ html { overflow-x: hidden; }
   --kd-ease-spring: cubic-bezier(.22, .68, 0, 1.2);
   --kd-ease-smooth: cubic-bezier(.4, 0, .2, 1);
   --kd-ease-decel:  cubic-bezier(.0, 0, .2, 1);
-  --kd-shadow-card:       0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.05);
-  --kd-shadow-card-hover: 0 8px 32px rgba(46,125,50,.13), 0 3px 8px rgba(0,0,0,.06);
-  --kd-shadow-filter:     0 4px 24px rgba(0,0,0,.08), 0 1px 3px rgba(0,0,0,.04);
-  --kd-shadow-drop:       0 8px 40px rgba(0,0,0,.13), 0 2px 8px rgba(0,0,0,.06);
 }
 
 /* ── Premium page background ───────────────────────────────── */
@@ -1365,6 +1374,17 @@ body { background: #F2F4F2; }
   color: #BDBDBD;
   cursor: not-allowed;
 }
+
+/* Lightweight "soft" input recipe — same premium tint as .kd-input but for
+   plain .form-control/.form-select fields with no leading icon (no wrapper
+   markup required), e.g. simple contact/support forms. */
+.kd-input-soft {
+  border-radius: 10px;
+  border: 1.5px solid #E4EAE4;
+  background: #F6FAF6;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+.kd-input-soft:focus { background: #fff; }
 
 /* Select variant */
 .kd-select {
@@ -1662,13 +1682,9 @@ body { background: #F2F4F2; }
   --kd-gradient-brand-light: linear-gradient(135deg, #F1F8F1 0%, #E8F5E9 100%);
   --kd-gradient-hero:        linear-gradient(145deg, #E8F5E9 0%, #EEF7EE 35%, #F9FFF9 70%, #fff 100%);
   --kd-gradient-page:        linear-gradient(160deg, #F2F5F2 0%, #F0F4F0 100%);
-  --kd-shadow-xs:            0 1px 2px rgba(0,0,0,.05);
   --kd-shadow-card:          0 1px 3px rgba(0,0,0,.06), 0 4px 14px rgba(0,0,0,.05);
   --kd-shadow-card-lift:     0 8px 36px rgba(46,125,50,.16), 0 3px 10px rgba(0,0,0,.06);
   --kd-shadow-glow:          0 0 0 3px rgba(46,125,50,.12), 0 4px 20px rgba(46,125,50,.15);
-  --kd-transition-fast:      .15s cubic-bezier(.4,0,.2,1);
-  --kd-transition-base:      .22s cubic-bezier(.4,0,.2,1);
-  --kd-transition-spring:    .25s cubic-bezier(.34,1.56,.64,1);
 }
 
 /* ── Premium body ────────────────────────────────────────────────── */
@@ -1782,18 +1798,6 @@ body {
 .kd-mpc-variety { overflow: hidden; text-overflow: ellipsis; }
 .kd-mandi-table td, .kd-mandi-table th { overflow: hidden; text-overflow: ellipsis; }
 .kd-mandi-table td { max-width: 200px; }
-
-/* ── Scheme card ─────────────────────────────────────────────────── */
-.kd-scheme-card {
-  border-left: 4px solid var(--kd-green) !important;
-  border-radius: 14px !important;
-  box-shadow: var(--kd-shadow-card);
-  transition: box-shadow .22s cubic-bezier(.4,0,.2,1), transform .25s cubic-bezier(.34,1.56,.64,1);
-}
-.kd-scheme-card:hover {
-  box-shadow: var(--kd-shadow-card-lift);
-  transform: translateY(-2px);
-}
 
 /* ── Page banner (inner pages) ───────────────────────────────────── */
 .kd-page-banner {
@@ -2195,7 +2199,6 @@ body {
   white-space: nowrap;
   flex-shrink: 0;
 }
-.kd-chg-up { background: #E8F5E9; color: #2E7D32; }
 .kd-chg-dn { background: #FFEBEE; color: #C62828; }
 .kd-home-mandi-loc {
   font-size: .72rem;
@@ -2319,7 +2322,7 @@ body {
   font-size: .6rem;
   font-weight: 600;
   letter-spacing: .03em;
-  color: #767676;
+  color: var(--kd-text-muted);
   background: #F5F5F5;
   border: 1px solid #E0E0E0;
   border-radius: 3px;
@@ -2455,6 +2458,37 @@ body {
   transition: filter .15s;
 }
 .kd-sponsored-btn:hover { filter: brightness(.95); }
+
+/* ── Standard "Buy on Amazon" CTA — same gold gradient everywhere a
+   sponsored card links out, so the ad always reads as an Amazon-style
+   buy button instead of a plain text link. .kd-amz-btn is the compact
+   inline pill used inside a price/footer row; add .kd-amz-btn-block for
+   the full-width version used in taller standalone cards. */
+.kd-amz-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #111 !important;
+  background: linear-gradient(to bottom, #FFD814 0%, #FFA41C 100%);
+  border: 1px solid #FCD200;
+  border-radius: 6px;
+  padding: 5px 10px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: filter .15s;
+}
+.kd-amz-btn:hover { filter: brightness(.95); color: #111 !important; }
+.kd-amz-btn-block {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-radius: 50px;
+  padding: 7px 0;
+  font-size: .82rem;
+}
 .kd-sponsored-disclaimer {
   font-size: .75rem;
   color: #757575;

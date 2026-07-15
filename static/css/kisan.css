@@ -2542,4 +2542,5 @@ body {
 @media (max-width: 575.98px) {
   .kd-sponsored-section { padding-top: .875rem !important; padding-bottom: .875rem !important; }
   .kd-sponsored-section .container { padding-left: 12px; padding-right: 12px; }
+  .kd-sponsored-name { font-size: .7rem !important; }
 }

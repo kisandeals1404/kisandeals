@@ -52,24 +52,73 @@
     if (w > 0 && h > 0 && (w < MIN_DISPLAY_PX || h < MIN_DISPLAY_PX)) { kdAmzFallback(img); return; }
   }
 
+  // Skips images still waiting on kdInitLazyImages (they carry data-src) —
+  // checking now would read the 1x1 placeholder's natural size and fire a
+  // false-positive fallback before the real photo ever loads. kdLoadLazyImg
+  // calls this again once the real src is swapped in.
+  function kdAmzCheckImg(img) {
+    if (img.getAttribute('data-kd-amz-checked')) return;
+    if (img.hasAttribute('data-src')) return;
+    img.setAttribute('data-kd-amz-checked', '1');
+    img.addEventListener('error', function() { kdAmzFallback(img); });
+    if (img.complete) {
+      kdAmzCheck(img);
+    } else {
+      img.addEventListener('load', function() { kdAmzCheck(img); });
+    }
+  }
+
   w.kdInitAmazonCards = function(root) {
-    (root || document).querySelectorAll('a[rel~="sponsored"] img').forEach(function(img) {
-      if (img.getAttribute('data-kd-amz-checked')) return;
-      img.setAttribute('data-kd-amz-checked', '1');
-      img.addEventListener('error', function() { kdAmzFallback(img); });
-      if (img.complete) {
-        kdAmzCheck(img);
+    (root || document).querySelectorAll('a[rel~="sponsored"] img').forEach(kdAmzCheckImg);
+  };
+
+  /* ── Viewport-lazy images ────────────────────────────────────────────
+     Templates emit <img src="{1x1 pixel}" data-src="{real url}"
+     class="kd-lazy-img"> for anything below the fold (ad thumbnails,
+     gallery/listing photos) instead of downloading every image up front.
+     The shimmer background (.kd-lazy-img, kisan.css) stands in until the
+     tag scrolls near the viewport, at which point the real URL swaps into
+     src. rootMargin gives images a head start so they've finished
+     decoding by the time they're actually scrolled into view. */
+  function kdLoadLazyImg(img) {
+    var real = img.getAttribute('data-src');
+    if (!real) return;
+    img.removeAttribute('data-src');
+    img.addEventListener('load', function() { img.classList.add('kd-loaded'); }, { once: true });
+    img.addEventListener('error', function() { img.classList.add('kd-loaded'); }, { once: true });
+    img.src = real;
+    if (img.closest('a[rel~="sponsored"]')) kdAmzCheckImg(img);
+  }
+
+  var kdLazyObserver = w.IntersectionObserver ? new w.IntersectionObserver(function(entries, obs) {
+    entries.forEach(function(entry) {
+      if (!entry.isIntersecting) return;
+      obs.unobserve(entry.target);
+      kdLoadLazyImg(entry.target);
+    });
+  }, { rootMargin: '200px 0px' }) : null;
+
+  w.kdInitLazyImages = function(root) {
+    (root || document).querySelectorAll('img[data-src]').forEach(function(img) {
+      if (img.getAttribute('data-kd-lazy-observed')) return;
+      img.setAttribute('data-kd-lazy-observed', '1');
+      if (kdLazyObserver) {
+        kdLazyObserver.observe(img);
       } else {
-        img.addEventListener('load', function() { kdAmzCheck(img); });
+        kdLoadLazyImg(img);
       }
     });
   };
 
-  document.addEventListener('DOMContentLoaded', function() { w.kdInitAmazonCards(); });
+  document.addEventListener('DOMContentLoaded', function() {
+    w.kdInitAmazonCards();
+    w.kdInitLazyImages();
+  });
 
-  // Some pages (e.g. the weather widget) build a sponsored card client-side after
-  // initial render — watch for those insertions too instead of requiring every
-  // such page to remember to call kdInitAmazonCards() itself.
+  // Some pages (e.g. the weather widget) build a sponsored card, or other
+  // lazy images, client-side after initial render — watch for those
+  // insertions too instead of requiring every such page to remember to
+  // call kdInitAmazonCards()/kdInitLazyImages() itself.
   if (w.MutationObserver) {
     new MutationObserver(function(mutations) {
       for (var i = 0; i < mutations.length; i++) {
@@ -80,6 +129,10 @@
           if ((n.matches && n.matches('a[rel~="sponsored"]')) ||
               (n.querySelector && n.querySelector('a[rel~="sponsored"] img'))) {
             w.kdInitAmazonCards(n.parentNode || document);
+          }
+          if ((n.matches && n.matches('img[data-src]')) ||
+              (n.querySelector && n.querySelector('img[data-src]'))) {
+            w.kdInitLazyImages(n.parentNode || document);
           }
         }
       }

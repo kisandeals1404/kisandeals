@@ -767,6 +767,21 @@ h1, h2, h3, h4, h5, h6 { font-weight: 700; }
   100% { background-position: -200% 0; }
 }
 
+/* ── Viewport-lazy images ─────────────────────────────────────────
+   Pairs with kdInitLazyImages() in kd-utils.js: <img src="{1x1 pixel}"
+   data-src="{real url}" class="kd-lazy-img"> shows this shimmer (the pixel
+   is transparent) until the tag scrolls near the viewport, then JS swaps
+   the real URL into src and adds .kd-loaded to drop the shimmer. */
+.kd-lazy-img {
+  background: linear-gradient(90deg, #e9ecef 25%, #f8f9fa 50%, #e9ecef 75%);
+  background-size: 200% 100%;
+  animation: kd-shimmer 1.5s infinite;
+}
+.kd-lazy-img.kd-loaded {
+  animation: none;
+  background: none;
+}
+
 /* ── Weather strip ─────────────────────────────────────────────── */
 .kd-weather-strip {
   background: linear-gradient(90deg, #E3F2FD, #E8F5E9);

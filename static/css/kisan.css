@@ -2377,13 +2377,18 @@ body {
   color: inherit;
   display: flex;
   flex-direction: column;
-  transition: box-shadow .18s, transform .18s;
+  transition: box-shadow .18s, transform .18s, border-color .18s;
 }
 .kd-sponsored-card:hover {
   box-shadow: 0 6px 20px rgba(0,0,0,.13);
   transform: translateY(-3px);
+  border-color: #FFD199;
 }
 .kd-sponsored-card:active { transform: translateY(-1px); }
+.kd-sponsored-card:focus-visible {
+  outline: 2px solid #FF9900;
+  outline-offset: 2px;
+}
 .kd-sponsored-img-wrap {
   position: relative;
   height: 148px;
@@ -2452,12 +2457,56 @@ body {
   color: #111;
   background: linear-gradient(to bottom, #FFD814 0%, #FFA41C 100%);
   border: 1px solid #FCD200;
-  border-radius: 7px;
-  padding: 7px 0;
+  border-radius: 50px;
+  padding: 8px 0;
   line-height: 1;
-  transition: filter .15s;
+  transition: filter .15s, transform .1s;
 }
 .kd-sponsored-btn:hover { filter: brightness(.95); }
+.kd-sponsored-card:active .kd-sponsored-btn { transform: scale(.97); }
+
+/* External-navigation cue — every affiliate CTA links off-site to Amazon, so both
+   button variants get a small "opens externally" arrow after the label. A plain
+   Unicode glyph (not an icon-font class) so it doesn't depend on Bootstrap Icons
+   having loaded, and needs no markup changes across the ~13 templates that render
+   these buttons. */
+.kd-sponsored-btn::after, .kd-amz-btn::after {
+  content: "\2197";
+  margin-left: 3px;
+  font-weight: 700;
+  opacity: .75;
+}
+
+/* Fallback shown in place of the product photo when the source image is missing,
+   broken, or too low-resolution for the slot it's rendered into (would otherwise
+   look blurry/pixelated when upscaled) — see kdInitAmazonCards() in kd-utils.js.
+   Orange-on-cream to echo the Amazon wordmark's own smile-swoosh color. */
+.kd-amz-logo-fallback {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FFF6EC, #FFE8CC) !important;
+  color: #FF9900;
+  line-height: 1;
+}
+.kd-amz-logo-fallback i { line-height: 1; }
+
+/* Rotating "Hot Deal / Trending / Best Seller / Limited Time" pill — see
+   img.dealBadge() in img-util.ftl. Amazon-orange to match the logo/CTA button. */
+.kd-amz-deal-badge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  font-size: .64rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #FF9900, #F57C00);
+  border-radius: 100px;
+  padding: 2px 9px;
+  line-height: 1.6;
+  white-space: nowrap;
+  letter-spacing: .01em;
+}
 
 /* ── Standard "Buy on Amazon" CTA — same gold gradient everywhere a
    sponsored card links out, so the ad always reads as an Amazon-style
@@ -2474,13 +2523,15 @@ body {
   color: #111 !important;
   background: linear-gradient(to bottom, #FFD814 0%, #FFA41C 100%);
   border: 1px solid #FCD200;
-  border-radius: 6px;
-  padding: 5px 10px;
+  border-radius: 50px;
+  padding: 6px 12px;
+  min-height: 30px;
   white-space: nowrap;
   text-decoration: none;
-  transition: filter .15s;
+  transition: filter .15s, transform .1s;
 }
 .kd-amz-btn:hover { filter: brightness(.95); color: #111 !important; }
+.kd-amz-btn:active { transform: scale(.97); }
 .kd-amz-btn-block {
   display: flex;
   justify-content: center;

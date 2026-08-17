@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 380" width="500" height="380" role="img" aria-label="KisanDeals app showing live mandi prices for tomato, wheat and onion">
+  <defs>
+    <linearGradient id="ha-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#B3E5FC"/>
+      <stop offset="70%" stop-color="#C8E6C9"/>
+      <stop offset="100%" stop-color="#A5D6A7"/>
+    </linearGradient>
+    <linearGradient id="ha-field" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#388E3C"/>
+      <stop offset="100%" stop-color="#1B5E20"/>
+    </linearGradient>
+    <linearGradient id="ha-field2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#43A047"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="ha-phone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#16213E"/>
+    </linearGradient>
+    <linearGradient id="ha-screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8F5E9"/>
+      <stop offset="100%" stop-color="#C8E6C9"/>
+    </linearGradient>
+    <radialGradient id="ha-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ha-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.2)"/>
+    </filter>
+    <filter id="ha-shadow-sm" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+    <clipPath id="ha-screen-clip">
+      <rect x="188" y="76" width="124" height="196" rx="8"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Sky background ── -->
+  <rect width="500" height="380" fill="url(#ha-sky)"/>
+
+  <!-- ── Sun ── -->
+  <circle cx="430" cy="72" r="42" fill="#FFF9C4" opacity="0.5"/>
+  <circle cx="430" cy="72" r="32" fill="#FFF59D" opacity="0.75"/>
+  <circle cx="430" cy="72" r="22" fill="#FFEE58"/>
+
+  <!-- Sun rays -->
+  <g stroke="#FFF176" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+    <line x1="430" y1="38" x2="430" y2="28"/>
+    <line x1="430" y1="106" x2="430" y2="116"/>
+    <line x1="396" y1="72" x2="386" y2="72"/>
+    <line x1="464" y1="72" x2="474" y2="72"/>
+    <line x1="406" y1="48" x2="399" y2="41"/>
+    <line x1="454" y1="96" x2="461" y2="103"/>
+    <line x1="454" y1="48" x2="461" y2="41"/>
+    <line x1="406" y1="96" x2="399" y2="103"/>
+  </g>
+
+  <!-- ── Clouds ── -->
+  <g opacity="0.88">
+    <ellipse cx="90"  cy="68" rx="38" ry="16" fill="white"/>
+    <ellipse cx="118" cy="58" rx="32" ry="15" fill="white"/>
+    <ellipse cx="66"  cy="73" rx="26" ry="13" fill="white"/>
+  </g>
+  <g opacity="0.75">
+    <ellipse cx="310" cy="52" rx="30" ry="13" fill="white"/>
+    <ellipse cx="335" cy="44" rx="24" ry="11" fill="white"/>
+    <ellipse cx="290" cy="57" rx="20" ry="10" fill="white"/>
+  </g>
+
+  <!-- ── Distant hills ── -->
+  <ellipse cx="80"  cy="252" rx="130" ry="55" fill="#66BB6A" opacity="0.6"/>
+  <ellipse cx="420" cy="258" rx="140" ry="50" fill="#81C784" opacity="0.55"/>
+  <ellipse cx="250" cy="265" rx="180" ry="45" fill="#4CAF50" opacity="0.45"/>
+
+  <!-- ── Ground / Field ── -->
+  <rect x="0" y="280" width="500" height="100" fill="url(#ha-field)"/>
+  <rect x="0" y="278" width="500" height="18" fill="url(#ha-field2)"/>
+
+  <!-- Furrow lines -->
+  <g stroke="#2E7D32" stroke-width="1.5" opacity="0.5">
+    <line x1="0" y1="295" x2="500" y2="295"/>
+    <line x1="0" y1="310" x2="500" y2="310"/>
+    <line x1="0" y1="325" x2="500" y2="325"/>
+    <line x1="0" y1="340" x2="500" y2="340"/>
+  </g>
+
+  <!-- ── Wheat stalks — left cluster ── -->
+  <g fill="#8BC34A" stroke="#558B2F" stroke-width="0.8">
+    <line x1="55" y1="280" x2="50" y2="200" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="50" cy="196" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="45" cy="208" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="55" cy="206" rx="4" ry="11" fill="#8BC34A"/>
+    <line x1="75" y1="280" x2="82" y2="195" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="82" cy="191" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="76" cy="203" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="88" cy="201" rx="4" ry="11" fill="#8BC34A"/>
+    <line x1="40" y1="280" x2="35" y2="210" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="35" cy="207" rx="4" ry="12" fill="#9CCC65"/>
+    <ellipse cx="30" cy="217" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="40" cy="215" rx="3.5" ry="9" fill="#8BC34A"/>
+    <line x1="20" y1="280" x2="18" y2="220" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="18" cy="217" rx="4" ry="11" fill="#9CCC65"/>
+    <line x1="100" y1="280" x2="96" y2="215" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="96" cy="212" rx="4" ry="11" fill="#9CCC65"/>
+    <ellipse cx="91" cy="221" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="101" cy="219" rx="3.5" ry="9" fill="#8BC34A"/>
+  </g>
+
+  <!-- ── Wheat stalks — right cluster ── -->
+  <g fill="#8BC34A" stroke="#558B2F" stroke-width="0.8">
+    <line x1="440" y1="280" x2="437" y2="200" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="437" cy="196" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="431" cy="208" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="443" cy="206" rx="4" ry="11" fill="#8BC34A"/>
+    <line x1="460" y1="280" x2="465" y2="205" stroke="#7CB342" stroke-width="2.5"/>
+    <ellipse cx="465" cy="201" rx="5" ry="14" fill="#9CCC65"/>
+    <ellipse cx="459" cy="213" rx="4" ry="11" fill="#8BC34A"/>
+    <ellipse cx="471" cy="211" rx="4" ry="11" fill="#8BC34A"/>
+    <line x1="480" y1="280" x2="483" y2="215" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="483" cy="212" rx="4" ry="11" fill="#9CCC65"/>
+    <line x1="420" y1="280" x2="416" y2="218" stroke="#7CB342" stroke-width="2"/>
+    <ellipse cx="416" cy="215" rx="4" ry="11" fill="#9CCC65"/>
+    <ellipse cx="410" cy="225" rx="3.5" ry="9" fill="#8BC34A"/>
+    <ellipse cx="422" cy="223" rx="3.5" ry="9" fill="#8BC34A"/>
+  </g>
+
+  <!-- ── Birds in sky ── -->
+  <g stroke="#546E7A" stroke-width="1.5" fill="none" stroke-linecap="round">
+    <path d="M140 90 Q145 86 150 90"/>
+    <path d="M152 86 Q157 82 162 86"/>
+    <path d="M165 94 Q169 90 173 94"/>
+  </g>
+
+  <!-- ── Phone ground shadow ── -->
+  <ellipse cx="250" cy="288" rx="80" ry="12" fill="rgba(0,0,0,0.18)"/>
+
+  <!-- ── Glow behind phone (centerpiece) ── -->
+  <circle cx="250" cy="170" r="150" fill="url(#ha-glow)"/>
+
+  <!-- ── Phone (centered hero) ── -->
+  <rect x="182" y="52" width="136" height="236" rx="22" fill="url(#ha-phone)" filter="url(#ha-shadow)"/>
+  <!-- Notch -->
+  <rect x="226" y="60" width="48" height="7" rx="3.5" fill="#333"/>
+  <!-- Screen -->
+  <rect x="188" y="76" width="124" height="196" rx="8" fill="url(#ha-screen)"/>
+
+  <!-- Screen content: KisanDeals UI mock -->
+  <g clip-path="url(#ha-screen-clip)">
+    <!-- App header bar -->
+    <rect x="188" y="76" width="124" height="30" fill="#2E7D32"/>
+    <text x="250" y="96" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="white">KisanDeals</text>
+
+    <!-- Price row 1: Tomato -->
+    <rect x="192" y="112" width="116" height="34" rx="4" fill="white" opacity="0.92"/>
+    <text x="198" y="130" font-family="sans-serif" font-size="10.5" fill="#2E7D32" font-weight="600">Tomato</text>
+    <text x="198" y="141" font-family="sans-serif" font-size="8" fill="#757575">Pune APMC</text>
+    <text x="300" y="132" font-family="sans-serif" font-size="11.5" fill="#2E7D32" font-weight="700" text-anchor="end">₹28/kg</text>
+    <polygon points="303,136 307,130 311,136" fill="#43A047"/>
+
+    <!-- Price row 2: Wheat -->
+    <rect x="192" y="150" width="116" height="34" rx="4" fill="white" opacity="0.92"/>
+    <text x="198" y="168" font-family="sans-serif" font-size="10.5" fill="#2E7D32" font-weight="600">Wheat</text>
+    <text x="198" y="179" font-family="sans-serif" font-size="8" fill="#757575">Indore APMC</text>
+    <text x="300" y="170" font-family="sans-serif" font-size="11.5" fill="#E65100" font-weight="700" text-anchor="end">₹2800</text>
+    <polygon points="303,170 307,176 311,170" fill="#E53935"/>
+
+    <!-- Price row 3: Onion -->
+    <rect x="192" y="188" width="116" height="34" rx="4" fill="white" opacity="0.92"/>
+    <text x="198" y="206" font-family="sans-serif" font-size="10.5" fill="#2E7D32" font-weight="600">Onion</text>
+    <text x="198" y="217" font-family="sans-serif" font-size="8" fill="#757575">Nashik APMC</text>
+    <text x="300" y="208" font-family="sans-serif" font-size="11.5" fill="#2E7D32" font-weight="700" text-anchor="end">₹1850</text>
+    <polygon points="303,212 307,206 311,212" fill="#43A047"/>
+
+    <!-- Bottom tab bar -->
+    <rect x="188" y="242" width="124" height="30" fill="#F1F8E9"/>
+    <text x="216" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#2E7D32">🏠</text>
+    <text x="250" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9E9E9E">📈</text>
+    <text x="284" y="262" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#9E9E9E">🛒</text>
+  </g>
+
+  <!-- Phone home indicator -->
+  <rect x="230" y="278" width="40" height="4" rx="2" fill="#333"/>
+
+  <!-- ── Download callout (bottom-center, below the phone) ── -->
+  <text x="250" y="308" text-anchor="middle" font-family="sans-serif" font-size="15" font-weight="800" fill="white">Download the App</text>
+
+  <!-- ── Google Play badge — Android only; no iOS app exists yet, so no App
+       Store badge here (matches the real footer.ftl badge, which is also
+       Play-only for the same reason). ── -->
+  <g filter="url(#ha-shadow-sm)">
+    <rect x="170" y="318" width="160" height="46" rx="8" fill="#111"/>
+    <!-- Simplified Play-triangle glyph (4 colour segments, same as the real logomark) -->
+    <g transform="translate(190,341)">
+      <polygon points="-7,-11 -7,11 3,0" fill="#00E5FF"/>
+      <polygon points="-7,-11 8,-3 3,0" fill="#4CAF50"/>
+      <polygon points="-7,11 8,3 3,0" fill="#F44336"/>
+      <polygon points="8,-3 8,3 3,0" fill="#FFC107"/>
+    </g>
+    <text x="207" y="336" font-family="sans-serif" font-size="7.5" fill="#CFCFCF">GET IT ON</text>
+    <text x="207" y="350" font-family="sans-serif" font-size="13" font-weight="700" fill="white">Google Play</text>
+  </g>
+
+  <!-- ── Green badge / tag (top-left) ── -->
+  <rect x="15" y="15" width="130" height="32" rx="16" fill="#2E7D32" filter="url(#ha-shadow-sm)"/>
+  <text x="80" y="26" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#A5D6A7" font-weight="500">Live Mandi Prices</text>
+  <text x="80" y="38" text-anchor="middle" font-family="sans-serif" font-size="9" fill="white" font-weight="700">📈 Checked Daily</text>
+
+  <!-- ── Decorative dots ── -->
+  <circle cx="70" cy="170" r="3" fill="#A5D6A7" opacity="0.6"/>
+  <circle cx="55" cy="155" r="2" fill="#81C784" opacity="0.5"/>
+  <circle cx="80" cy="155" r="2" fill="#A5D6A7" opacity="0.4"/>
+  <circle cx="60" cy="190" r="2.5" fill="#66BB6A" opacity="0.5"/>
+  <circle cx="440" cy="230" r="3" fill="#A5D6A7" opacity="0.6"/>
+  <circle cx="455" cy="215" r="2" fill="#81C784" opacity="0.5"/>
+
+  <!-- ── Floating price chip — left ── -->
+  <rect x="18" y="215" width="118" height="46" rx="14" fill="white" filter="url(#ha-shadow-sm)"/>
+  <circle cx="40" cy="238" r="13" fill="#E8F5E9"/>
+  <text x="40" y="243" text-anchor="middle" font-family="sans-serif" font-size="12">🌾</text>
+  <text x="55" y="234" font-family="sans-serif" font-size="10" fill="#2E7D32" font-weight="700">₹2800/Q</text>
+  <text x="55" y="248" font-family="sans-serif" font-size="7.5" fill="#757575">Wheat · Indore</text>
+
+  <!-- ── Floating price chip — right ── -->
+  <rect x="358" y="130" width="122" height="46" rx="14" fill="white" filter="url(#ha-shadow-sm)"/>
+  <circle cx="380" cy="153" r="13" fill="#FFF3E0"/>
+  <text x="380" y="158" text-anchor="middle" font-family="sans-serif" font-size="12">🧅</text>
+  <text x="395" y="149" font-family="sans-serif" font-size="10" fill="#2E7D32" font-weight="700">₹1850/Q</text>
+  <text x="395" y="163" font-family="sans-serif" font-size="7.5" fill="#757575">Onion · Nashik</text>
+</svg>

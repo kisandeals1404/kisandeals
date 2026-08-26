@@ -1,0 +1,1 @@
+window.kdInitFilterStrip=function(t){t=t||{};var e=document.getElementById(t.stripId||"searchStrip"),i=document.getElementById(t.toggleId||"filterStripToggle");e&&i&&i.addEventListener("click",function(){var t;t=e.classList.contains("kd-strip-collapsed"),e.classList.toggle("kd-strip-collapsed",!t),i.setAttribute("aria-expanded",t.toString())})};
